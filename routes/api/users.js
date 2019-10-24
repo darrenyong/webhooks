@@ -33,4 +33,16 @@ router.post("/register", (req, res) => {
       })
 })
 
+router.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  User.findOne({email})
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({email: "This user does not exist"}); 
+        }
+      })
+})
+
 module.exports = router;
