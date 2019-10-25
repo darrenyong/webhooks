@@ -43,6 +43,7 @@ router.post("/login", (req, res) => {
 
   User.findOne({email})
       .then(user => {
+        // If you can't find the user, throw an error else compare and sign a JWT
         if (!user) {
           return res.status(404).json({email: "This user does not exist"}); 
         }
@@ -50,7 +51,17 @@ router.post("/login", (req, res) => {
         bcrypt.compare(password, user.password)
               .then(isMatch => {
                 if (isMatch) {
-                  res.json({message: "Success"})
+                  const payload = {
+                    id: user.id,
+                    name: user.name
+                  };
+
+                  jwt.sign(payload, keys.secretOrKey, {expiresIn: 7200}, (err, token) => {
+                    res.json({
+                      success: true,
+                      token: "Bearer " + token
+                    });
+                  });
                 } else {
                   return res.status(400).json({error: "Invalid password"});
                 }
