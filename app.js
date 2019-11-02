@@ -7,8 +7,9 @@ const app = express();
 const db = require("./config/keys").mongoURI;
 const port = process.env.PORT || 5000;
 
-const users = require("./routes/api/users")
-const tweets = require("./routes/api/tweets")
+const users = require("./routes/api/users");
+const tweets = require("./routes/api/tweets");
+const darren = require("./routes/api/darren");
 
 // Start up Server
 app.listen(port, () => {
@@ -27,5 +28,12 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 require("./config/passport")(passport);
 
+app.get("/", (req, res) => {
+  console.log("This is the request");
+  console.log(req.body);
+  // console.log("This is the response");
+  // console.log(res);
+  res.json({msg: "Hello World"});
+})
 app.use("/api/users", users);
 app.use("/api/tweets", tweets);

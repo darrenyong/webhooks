@@ -16,6 +16,8 @@ router.get("/test", (_, res) => {
 
 // User Registration
 router.post("/register", (req, res) => {
+  console.log(req.body);
+  // console.log(res)
   User.findOne({email: req.body.email})
       .then(user => {
         // If there is already an e-mail, throw an error else register the user.
