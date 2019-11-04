@@ -2,14 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const https = require("https");
 
 const app = express();
 const db = require("./config/keys").mongoURI;
 const port = process.env.PORT || 5000;
+const keys = require("./config/keys")
 
 const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
-const darren = require("./routes/api/darren");
+const tests = require("./routes/api/tests");
+
+const intercomKey = keys.intercomKey;
 
 // Start up Server
 app.listen(port, () => {
@@ -37,3 +41,23 @@ app.get("/", (req, res) => {
 })
 app.use("/api/users", users);
 app.use("/api/tweets", tweets);
+
+app.get("/test", (req, res) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${intercomKey}`,
+      Accept: "application/json"
+    }
+  }
+  
+  https.get("https://api.intercom.io/admins/", options, (response) => {
+    var result = "";
+    response.on("data", (chunk) => {
+      result += chunk;
+    });
+
+    response.on("end", () => {
+      res.json(result);
+    });
+  });
+})
