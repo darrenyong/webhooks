@@ -11,7 +11,6 @@ const keys = require("./config/keys")
 
 const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
-const tests = require("./routes/api/tests");
 
 const intercomKey = keys.intercomKey;
 
@@ -51,13 +50,15 @@ app.get("/test", (req, res) => {
   }
   
   https.get("https://api.intercom.io/admins/", options, (response) => {
-    var result = "";
+    var raw = "";
+
     response.on("data", (chunk) => {
-      result += chunk;
+      raw += chunk;
     });
 
     response.on("end", () => {
-      res.json(result);
-    });
+      let result = JSON.parse(raw);
+      res.json({admins: result.admins});
+    })
   });
 })
