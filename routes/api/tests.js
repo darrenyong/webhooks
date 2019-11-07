@@ -3,7 +3,7 @@ const router = express.Router();
 const keys = require("../../config/keys");
 const https = require("https");
 
-const intercomKey = keys.intercomKey
+const intercomKey = process.env.intercomKey || keys.intercomKey
 
 router.get("/test", (_, res) => {
   const options = {
