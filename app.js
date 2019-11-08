@@ -12,7 +12,7 @@ const keys = require("./config/keys")
 const intercomKey = keys.intercomKey;
 const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
-const tests = require("./routes/api/tests")
+const intercom = require("./routes/api/intercom")
 
 // Start up Server
 app.listen(port, () => {
@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 
 // app.use("/api/users", users);
 // app.use("/api/tweets", tweets);
-app.use("/api/tests", tests);
+app.use("/api/intercom", intercom);
 
 app.get("/test", (req, res) => {
 })
