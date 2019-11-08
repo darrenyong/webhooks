@@ -12,7 +12,21 @@ router.get("/test", (_, res) => {
 
   intercomClient.conversations.find({ id: `${test_conversationId}` }, (result) => {
     let tag = result.body.tags.tags
-    res.json({ msg: result });
+
+    if (!tag.length) {
+      let note_data = {
+        id: `${test_conversationId}`,
+        type: "admin",
+        message_type: "note",
+        admin_id: 3293893,
+        body: "Please tag the conversation! :)",
+        assignee_id: 0
+        };
+
+      intercomClient.conversations.reply(note_data);
+    } else {
+      res.json({ msg: "This convo has a tag! Congrats!" });
+    }
 
   });
 
