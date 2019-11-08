@@ -93,7 +93,7 @@ router.post("/webhook-test", (req, res) => {
         type: "admin",
         message_tyupe: "open",
         admin_id: intercomAdminId,
-        assignee_id: `${asigneeId}`
+        assignee_id: `${assigneeId}`
       }
 
       intercomClient.conversations.reply(note_data, (result) => {
