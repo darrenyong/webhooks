@@ -34,7 +34,7 @@ router.get("/test", (_, res) => {
 router.post("/webhook-test", (req, res) => {
   let conversationId = req.body.data.item.id;
 
-  const optinos = {
+  const options = {
     headers: {
       Authorization: `Bearer ${intercomKey} `,
       Accept: "application/json"
