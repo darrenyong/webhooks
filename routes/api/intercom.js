@@ -88,8 +88,17 @@ router.post("/webhook-test", (req, res) => {
         assignee_id: `${assigneeId}`
       }
 
+      let open_data = {
+        id: `${conversationId}`,
+        type: "admin",
+        message_tyupe: "open",
+        admin_id: intercomAdminId,
+        assignee_id: `${asigneeId}`
+      }
+
       intercomClient.conversations.reply(note_data, (result) => {
-        console.log("Note added!");
+        intercomClient.conversations.reply(open_data);
+        console.log("Note added and conversation re-opened!");
         return res.json({});
       })      
     } else {
