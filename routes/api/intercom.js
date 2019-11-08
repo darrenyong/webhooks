@@ -73,6 +73,7 @@ router.get("/test", (_, res) => {
 
 router.post("/webhook-test", (req, res) => {
   let conversationId = req.body.data.item.id;
+  let assigneeId = req.body.data.item.assignee.id || 0;
 
   intercomClient.conversations.find({ id: `${conversationId}` }, (result) => {
     let tag = result.body.tags.tags
@@ -84,7 +85,7 @@ router.post("/webhook-test", (req, res) => {
         message_type: "note",
         admin_id: intercomAdminId,
         body: "Please tag the conversation! :)",
-        assignee_id: 0
+        assignee_id: `${assigneeId}`
       }
 
       intercomClient.conversations.reply(note_data, (result) => {
