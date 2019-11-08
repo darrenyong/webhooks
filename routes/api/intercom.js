@@ -31,7 +31,7 @@ router.get("/test", (_, res) => {
   });
 });
 
-router.get("/webhook-test", (_, res) => {
+router.post("/webhook-test", (_, res) => {
   console.log("Webhook working");
 })
 
