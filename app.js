@@ -9,9 +9,7 @@ const db = require("./config/keys").mongoURI;
 const port = process.env.PORT || 5000;
 const keys = require("./config/keys")
 
-const intercomKey = keys.intercomKey;
-const users = require("./routes/api/users");
-const tweets = require("./routes/api/tweets");
+// const users = require("./routes/api/users");
 const intercom = require("./routes/api/intercom")
 
 // Start up Server
@@ -42,7 +40,6 @@ app.get("/", (req, res) => {
 
 // app.use("/api/users", users);
 // app.use("/api/tweets", tweets);
-app.use("/api/intercom", intercom);
+app.use("/intercom", intercom);
 
-app.get("/test", (req, res) => {
-})
+app.get("/test", (req, res) => {})
