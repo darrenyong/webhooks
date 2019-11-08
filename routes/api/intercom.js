@@ -32,8 +32,29 @@ router.get("/test", (_, res) => {
 });
 
 router.post("/webhook-test", (req, res) => {
-  res.json({msg: "Webhook working"});
-  console.log(req.body);
+  let conversationId = req.body.data.item.id;
+
+  const optinos = {
+    headers: {
+      Authorization: `Bearer ${intercomKey} `,
+      Accept: "application/json"
+    }
+  };
+
+  https.get(`https://api.intercom.io/conversations/${conversationId}`, options, (response) => {
+    let raw = ""
+
+    response.on("data", (chunk) => {
+      raw += chunk;
+    });
+
+    response.on("end", () => {
+      let result = JSON.parse(raw);
+      console.log(raw);
+    }).on("error", (error) => {
+      res.json({ message: "Error " + error });
+    })
+  });
 })
 
 module.exports = router;
