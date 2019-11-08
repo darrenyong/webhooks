@@ -4,26 +4,29 @@ const keys = require("../../config/keys");
 const https = require("https");
 const Intercom = require("intercom-client");
 
-const intercomKey = process.env.intercomKey || keys.intercomKey
+const intercomKey = process.env.INTERCOM_KEY || keys.intercomKey;
 const intercomClient = new Intercom.Client({ token: `${intercomKey}` });
+const intercomAdminId = process.env.INTERCOM_ADMIN_ID || keys.intercomAdminId
 
 router.get("/test", (_, res) => {
   const test_conversationId = 24434924512;
 
   intercomClient.conversations.find({ id: `${test_conversationId}` }, (result) => {
-    let tag = result.body.tags.tags
+    let tag = result.body.tags.tags    
 
     if (!tag.length) {
-      let note_data = {
+      let test_note_data = {
         id: `${test_conversationId}`,
         type: "admin",
         message_type: "note",
-        admin_id: 3293893,
+        admin_id: intercomAdminId,
         body: "Please tag the conversation! :)",
         assignee_id: 0
         };
 
-      intercomClient.conversations.reply(note_data);
+      intercomClient.conversations.reply(test_note_data, (result) => {
+        res.json({ msg: "Note was added!" });
+      });
     } else {
       res.json({ msg: "This convo has a tag! Congrats!" });
     }
@@ -71,29 +74,26 @@ router.get("/test", (_, res) => {
 router.post("/webhook-test", (req, res) => {
   let conversationId = req.body.data.item.id;
 
-  // Options for the Conversation API Call
-  const options = {
-    headers: {
-      "Authorization": `Bearer ${intercomKey} `,
-      "Accept": "application/json"
+  intercomClient.conversations.find({ id: `${conversationId}` }, (result) => {
+    let tag = result.body.tags.tags
+
+    if (!tag.length) {
+      let note_data = {
+        id: `${conversationId}`,
+        type: "admin",
+        message_type: "note",
+        admin_id: intercomAdminId,
+        body: "Please tag the conversation! :)",
+        assignee_id: 0
+      }
+
+      intercomClient.conversations.reply(note_data, (result) => {
+        console.log("Note added!");
+      })      
+    } else {
+      console.log("This convo has a tag! Congrats!")
     }
-  };
-
-  // Actual Webhook API
-  https.get(`https://api.intercom.io/conversations/${conversationId}`, options, (response) => {
-    let raw = ""
-
-    response.on("data", (chunk) => {
-      raw += chunk;
-    });
-
-    response.on("end", () => {
-      let result = JSON.parse(raw);
-      console.log(raw);
-    }).on("error", (error) => {
-      res.json({ message: "Error " + error });
-    })
-  });
+  })
 })
 
 module.exports = router;
