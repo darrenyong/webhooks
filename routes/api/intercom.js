@@ -25,7 +25,20 @@ router.get("/test", (_, res) => {
         };
 
       intercomClient.conversations.reply(test_note_data, (result) => {
-        res.json({ msg: "Note was added!" });
+        if (result) {
+         let open_data = {
+           id: `${test_conversationId}`,
+           type: "admin",
+           message_type: "open",
+           admin_id: intercomAdminId,
+           assignee_id: 0
+         };
+
+         intercomClient.conversations.reply(open_data, result => {
+           console.log("Note added and conversation re-opened!");
+           return res.json({});
+         }); 
+        }
       });
     } else {
       res.json({ msg: "This convo has a tag! Congrats!" });
@@ -88,18 +101,22 @@ router.post("/webhook-test", (req, res) => {
         assignee_id: `${assigneeId}`
       }
 
-      let open_data = {
-        id: `${conversationId}`,
-        type: "admin",
-        message_tyupe: "open",
-        admin_id: intercomAdminId,
-        assignee_id: `${assigneeId}`
-      }
-
+      
       intercomClient.conversations.reply(note_data, (result) => {
-        intercomClient.conversations.reply(open_data);
-        console.log("Note added and conversation re-opened!");
-        return res.json({});
+        if (result) {
+          let open_data = {
+            id: `${conversationId}`,
+            type: "admin",
+            message_type: "open",
+            admin_id: intercomAdminId,
+            assignee_id: `${assigneeId}`
+          }
+          
+          intercomClient.conversations.reply(open_data, (result) => {
+            console.log("Note added and conversation re-opened!");
+            return res.json({});
+          })
+        }
       })      
     } else {
       console.log("This convo has a tag! Congrats!")
