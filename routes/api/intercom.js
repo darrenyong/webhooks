@@ -90,10 +90,11 @@ router.post("/webhook-test", (req, res) => {
 
       intercomClient.conversations.reply(note_data, (result) => {
         console.log("Note added!");
+        return res.json({});
       })      
     } else {
       console.log("This convo has a tag! Congrats!")
-      return;
+      return res.json({});
     }
   })
 })
