@@ -32,7 +32,7 @@ router.get("/test", (_, res) => {
 });
 
 router.post("/webhook-test", (_, res) => {
-  console.log("Webhook working");
+  res.json({msg: "Webhook working"});
 })
 
 module.exports = router;
