@@ -93,6 +93,7 @@ router.post("/webhook-test", (req, res) => {
       })      
     } else {
       console.log("This convo has a tag! Congrats!")
+      return;
     }
   })
 })
