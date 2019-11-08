@@ -75,24 +75,25 @@ router.post("/webhook-test", (req, res) => {
   let conversationId = req.body.data.item.id;
 
   intercomClient.conversations.find({ id: `${conversationId}` }, (result) => {
-    let tag = result.body.tags.tags
+    console.log(result);
+    // let tag = result.body.tags.tags
 
-    if (!tag.length) {
-      let note_data = {
-        id: `${conversationId}`,
-        type: "admin",
-        message_type: "note",
-        admin_id: intercomAdminId,
-        body: "Please tag the conversation! :)",
-        assignee_id: 0
-      }
+    // if (!tag.length) {
+    //   let note_data = {
+    //     id: `${conversationId}`,
+    //     type: "admin",
+    //     message_type: "note",
+    //     admin_id: intercomAdminId,
+    //     body: "Please tag the conversation! :)",
+    //     assignee_id: 0
+    //   }
 
-      intercomClient.conversations.reply(note_data, (result) => {
-        console.log("Note added!");
-      })      
-    } else {
-      console.log("This convo has a tag! Congrats!")
-    }
+    //   intercomClient.conversations.reply(note_data, (result) => {
+    //     console.log("Note added!");
+    //   })      
+    // } else {
+    //   console.log("This convo has a tag! Congrats!")
+    // }
   })
 })
 
