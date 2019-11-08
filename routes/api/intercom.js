@@ -73,9 +73,10 @@ router.get("/test", (_, res) => {
 
 router.post("/webhook-test", (req, res) => {
   let conversationId = req.body.data.item.id;
+  console.log(`This is the conversation Id: ${conversationId}`);
 
   intercomClient.conversations.find({ id: `${conversationId}` }, (result) => {
-    console.log(result);
+    console.log(result.body);
     // let tag = result.body.tags.tags
 
     // if (!tag.length) {
