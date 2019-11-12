@@ -1,7 +1,5 @@
 const express = require("express");
-// const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-// const passport = require("passport");
 const https = require("https");
 
 const app = express();
