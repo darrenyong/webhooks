@@ -84,7 +84,7 @@ router.get("/test", (_, res) => {
   // );
 });
 
-router.post("/webhook-test", (req, res) => {
+router.post("/webhook", (req, res) => {
   let conversationId = req.body.data.item.id;
   let assigneeId = req.body.data.item.assignee.id || 0;
 
