@@ -23,6 +23,4 @@ app.get("/", (req, res) => {
   res.json({msg: "Hello World"});
 })
 
-// app.use("/api/users", users);
-// app.use("/api/tweets", tweets);
 app.use("/intercom", intercom);
