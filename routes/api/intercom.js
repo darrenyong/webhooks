@@ -114,13 +114,14 @@ router.post("/webhook", (req, res) => {
           
           intercomClient.conversations.reply(open_data, (result) => {
             console.log("Note added and conversation re-opened!");
-            return res.json({});
+            return res.json({ });
           })
         }
+        return res.json({ });
       })      
     } else {
       console.log("This convo has a tag! Congrats!")
-      return res.json({});
+      return res.json({ });
     }
   })
 })
