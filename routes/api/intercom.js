@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const keys = require("../../config/keys");
-const https = require("https");
 const Intercom = require("intercom-client");
 
 const intercomKey = process.env.INTERCOM_KEY || keys.intercomKey;
