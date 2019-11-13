@@ -112,15 +112,17 @@ router.post("/webhook", (req, res) => {
           }
           
           intercomClient.conversations.reply(open_data, (result) => {
-            console.log("Note added and conversation re-opened!");
-            return res.json({ });
+            // console.log("Note added and conversation re-opened!");
+            res.status(200).send({ msg: "Note added and conversation re-opened!" })
           })
+        } else {
+          res.status(404).send({ error: "Conversation now found" });
         }
-        return res.json({ });
+        res.status(200);
       })      
     } else {
-      console.log("This convo has a tag! Congrats!")
-      return res.json({ });
+      // console.log("This convo has a tag! Congrats!")
+      res.status(200).send({ msg: "This conversation already has a tag! Great job!" });
     }
   })
 })
